@@ -1,24 +1,26 @@
 
 var entries = [];
 var clicked = "";
+var click = new Audio('audio/click.mp3');
 
-
+// function will run each time a button is clicked
 function input(val) {
     var display = document.getElementById('display');
     var dp = clicked.includes(".");
 
+    click.play();
 
 // prevent multiple zeros at the start of a number
     if (val === "0") {
         if (display.value === "0") {
             clicked = "0";
-            display.value = clicked;
+            display.value = clicked;    
         } else {
             clicked += val;
             display.value = clicked.substring(0,9);
         }
 
-// if a number is pressed
+// if a number is pressed, concat it to the number on the string
     } else if (!isNaN(val)) {
         clicked += val;
         display.value = clicked.substring(0,9);
@@ -37,13 +39,13 @@ function input(val) {
             display.value = clicked.substring(0,9);
         }
 
-// if the AC button is pressed
+// if the AC button is pressed, clear the screen
     } else if (val === "AC") {
         entries = [];
         clicked = "";
         display.value = "0";
 
-// if the equals button is pressed
+// if the equals button is pressed, calculate the answer
     } else if (val === "=") {
         entries.push(clicked);
 
