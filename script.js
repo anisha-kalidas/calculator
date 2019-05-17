@@ -7,6 +7,8 @@ function input(val) {
     var display = document.getElementById('display');
     var dp = clicked.includes(".");
 
+
+// prevent multiple zeros at the start of a number
     if (val === "0") {
         if (display.value === "0") {
             clicked = "0";
@@ -16,11 +18,12 @@ function input(val) {
             display.value = clicked.substring(0,9);
         }
 
+// if a number is pressed
     } else if (!isNaN(val)) {
         clicked += val;
         display.value = clicked.substring(0,9);
 
-
+// prevent multiple decimal points
     } else if (val === ".") {
         if (!dp) {
             if (display.value === "0" || clicked === "") {
@@ -34,53 +37,13 @@ function input(val) {
             display.value = clicked.substring(0,9);
         }
 
+// if the AC button is pressed
     } else if (val === "AC") {
         entries = [];
         clicked = "";
         display.value = "0";
 
-    // } else if (val === "/") {
-    //     entries.push(clicked);
-    //     if (entries[entries.length -1] === "/" || entries[entries.length -1] === "*" || entries[entries.length -1] === "-" || entries[entries.length -1] === "+") {
-    //         entries.pop();
-    //         entries.push(val);
-    //     } else {
-    //         entries.push(clicked);
-    //         entries.push(val);
-    //         clicked = "";
-    //     }
-
-    // } else if (val === "*") {
-    //     if (entries[entries.length -1] === "/" || entries[entries.length -1] === "*" || entries[entries.length -1] === "-" || entries[entries.length -1] === "+") {
-    //         entries.pop();
-    //         entries.push(val);
-    //     } else {
-    //         entries.push(clicked);
-    //         entries.push(val);
-    //         clicked = "";
-    //     }
-
-    // } else if (val === "+") {
-    //     if (entries[entries.length -1] === "/" || entries[entries.length -1] === "*" || entries[entries.length -1] === "-" || entries[entries.length -1] === "+") {
-    //         entries.pop();
-    //         entries.push(val);
-    //     } else {
-    //         entries.push(clicked);
-    //         entries.push(val);
-    //         clicked = "";
-    //     }
-
-    // } else if (val === "-") {
-    //     if (entries[entries.length -1] === "/" || entries[entries.length -1] === "*" || entries[entries.length -1] === "-" || entries[entries.length -1] === "+") {
-    //         entries.pop();
-    //         entries.push(val);
-    //         clicked = "";
-    //     } else {
-    //         entries.push(clicked);
-    //         entries.push(val);
-    //         clicked = "";
-    //     }
-    
+// if the equals button is pressed
     } else if (val === "=") {
         entries.push(clicked);
 
@@ -102,20 +65,26 @@ function input(val) {
 
             i++
         }
-
+        // if the result is a negative number
         if (firstNumber < 0) {
             firstNumber = "-" + Math.abs(firstNumber)
         };
 
+        // make the result the new clicked value so we can perform calculations on it
         display.value = (""+firstNumber).substring(0,9);   
         entries = [];
         clicked = "" + firstNumber;
         
-
+// operator buttons - If 2 or more operators are entered consecutively, the operation performed should be the last operator entered
     } else {
-        entries.push(clicked);
-        entries.push(val);
-        clicked = "";
+        if (clicked === "") {
+            entries.pop();
+            entries.push(val);
+        } else {
+            entries.push(clicked);
+            entries.push(val);
+            clicked = "";
+        }
 
     }
 
